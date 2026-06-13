@@ -1,0 +1,16 @@
+<div class="sidebar">
+
+  <h2>MENU</h2>
+
+  <ul>
+    @for (item of menuItems; track item.route) {
+      <li>
+        <a [routerLink]="item.route" routerLinkActive="active">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <span>{{ item.name }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+
+</div>
