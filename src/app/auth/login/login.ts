@@ -27,28 +27,60 @@ export class Login {
     });
   }
 
-  login() {
-    if (this.loginForm.invalid) return;
+//   login() {
+//     if (this.loginForm.invalid) return;
 
-    this.auth.login(this.loginForm.value).subscribe((res: any) => {
- console.log('LOGIN RESPONSE:', res); // 👈 ADD THIS
-      this.auth.saveToken(res.token);
+//     this.auth.login(this.loginForm.value).subscribe((res: any) => {
+//     console.log("FULL RESPONSE", res);
+//     console.log("DATA OBJECT", res.data);
 
-      const role = this.auth.getRole()?.toLowerCase();
+//       const role = this.auth.getRole()?.toLowerCase();
 
-const routeMap: any = {
-  admin: '/admin/dashboard',
-  agent: '/agent/dashboard',
-  customer: '/customer/dashboard'
-};
+// const routeMap: any = {
+//   admin: '/admin/dashboard',
+//   agent: '/agent/dashboard',
+//   customer: '/customer/dashboard'
+// };
 
-const route = routeMap[role!];
+// const route = routeMap[role!];
 
-if (route) {
-  this.router.navigate([route]);
-} else {
-  console.log('Invalid role:', role);
+// if (route) {
+//   this.router.navigate([route]);
+// } else {
+//   console.log('Invalid role:', role);
+// }
+//     });
+//   }
+
+login() {
+
+  if (this.loginForm.invalid) return;
+
+  this.auth.login(this.loginForm.value).subscribe((res: any) => {
+
+    console.log(res);
+
+    this.auth.saveToken(res.data.token);
+
+    const role = res.data.role.toLowerCase();
+
+    const routeMap: any = {
+      admin: '/admin/dashboard',
+      agent: '/agent/dashboard',
+      customer: '/customer/dashboard'
+    };
+
+    const route = routeMap[role];
+
+    if (route) {
+      this.router.navigate([route]);
+    }
+    else {
+      console.log("Invalid Role");
+    }
+
+  });
+
 }
-    });
-  }
+
 }

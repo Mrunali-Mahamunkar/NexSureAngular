@@ -1,1 +1,491 @@
-<p>agent-dashboard works!</p>
+<div class="container-fluid p-4">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+
+                Agent Dashboard
+
+            </h2>
+
+            <p class="text-muted">
+
+                Welcome {{profile.agentName}}
+
+            </p>
+
+        </div>
+
+        <div class="d-flex gap-2">
+
+            <input
+                class="form-control"
+                placeholder="Search Customer..."
+                [(ngModel)]="searchText"
+                (keyup)="searchCustomer()">
+
+            <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="fromDate">
+
+            <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="toDate">
+
+            <button
+                class="btn btn-primary"
+                (click)="applyFilter()">
+
+                Filter
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Loading -->
+
+    <div *ngIf="loading" class="text-center p-5">
+
+        <div class="spinner-border text-primary">
+
+        </div>
+
+    </div>
+
+    <div *ngIf="!loading">
+
+        <!-- Statistics -->
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>Total Customers</h6>
+
+                        <h2>
+
+                            {{profile.totalCustomers}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>Total Policies</h6>
+
+                        <h2>
+
+                            {{summary.totalPolicies}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>Total Commission</h6>
+
+                        <h2>
+
+                            {{summary.totalCommission | currency:'INR'}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>This Month</h6>
+
+                        <h2>
+
+                            {{summary.thisMonthCommission | currency:'INR'}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Commission Chart -->
+
+        <div class="card shadow mt-4">
+
+            <div class="card-header fw-bold">
+
+                Commission Summary
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas id="commissionChart">
+
+                </canvas>
+
+            </div>
+
+        </div>
+
+        <!-- Agent Profile -->
+
+        <div class="card shadow mt-4">
+
+            <div class="card-header fw-bold">
+
+                Agent Profile
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <p>
+
+                            <strong>Agent Code :</strong>
+
+                            {{profile.agentCode}}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Name :</strong>
+
+                            {{profile.agentName}}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Email :</strong>
+
+                            {{profile.email}}
+
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <p>
+
+                            <strong>Mobile :</strong>
+
+                            {{profile.mobileNumber}}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Joining Date :</strong>
+
+                            {{profile.joiningDate | date}}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Total Customers :</strong>
+
+                            {{profile.totalCustomers}}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+            <!-- My Customers -->
+
+        <div class="card shadow mt-4">
+
+            <div class="card-header fw-bold">
+
+                My Customers
+
+            </div>
+
+            <div class="card-body table-responsive">
+
+                <table class="table table-hover table-striped">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Customer Code</th>
+
+                            <th>Name</th>
+
+                            <th>Email</th>
+
+                            <th>Mobile</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr *ngFor="let customer of customers.items">
+
+                            <td>
+
+                                {{customer.customerCode}}
+
+                            </td>
+
+                            <td>
+
+                                {{customer.firstName}}
+                                {{customer.lastName}}
+
+                            </td>
+
+                            <td>
+
+                                {{customer.email}}
+
+                            </td>
+
+                            <td>
+
+                                {{customer.mobileNumber}}
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <div
+                    class="text-center p-4"
+                    *ngIf="customers?.items?.length==0">
+
+                    <h5>
+
+                        No Customers Found
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Commission History -->
+
+        <div class="card shadow mt-4">
+
+            <div class="card-header fw-bold">
+
+                Commission History
+
+            </div>
+
+            <div class="card-body table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Commission Id</th>
+
+                            <th>Policy Id</th>
+
+                            <th>Amount</th>
+
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr *ngFor="let item of commissions.items">
+
+                            <td>
+
+                                {{item.commissionId}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.policyId}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.commissionAmount | currency:'INR'}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.commissionDate | date}}
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <div
+                    class="text-center p-4"
+                    *ngIf="commissions?.items?.length==0">
+
+                    <h5>
+
+                        No Commission History
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Pagination -->
+
+        <div class="d-flex justify-content-center mt-4">
+
+            <button
+
+                class="btn btn-outline-primary me-2"
+
+                (click)="previousPage()">
+
+                Previous
+
+            </button>
+
+            <span class="align-self-center">
+
+                Page {{currentPage}}
+
+            </span>
+
+            <button
+
+                class="btn btn-outline-primary ms-2"
+
+                (click)="nextPage()">
+
+                Next
+
+            </button>
+
+        </div>
+
+        <!-- Recent Activity -->
+
+        <div class="card shadow mt-5">
+
+            <div class="card-header fw-bold">
+
+                Recent Activity
+
+            </div>
+
+            <div class="card-body">
+
+                <ul class="list-group">
+
+                    <li class="list-group-item">
+
+                        New Customer Added
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        Commission Generated
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        Premium Received
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        Policy Purchased
+
+                    </li>
+
+                    <li class="list-group-item">
+
+                        Customer Profile Updated
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

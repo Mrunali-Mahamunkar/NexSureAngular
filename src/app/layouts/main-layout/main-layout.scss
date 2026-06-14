@@ -1,8 +1,19 @@
 .main-container {
-  display: flex;
+
+    display: flex;
+
+    height: calc(100vh - 60px);
+
 }
 
 .content {
-  flex: 1;
-  padding: 20px;
+
+    flex: 1;
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+    background: #f5f7fa;
+
 }
