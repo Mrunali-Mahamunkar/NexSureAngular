@@ -1,9 +1,11 @@
 .sidebar {
-  width: 260px;
-  height: calc(100vh - 70px);
-  background: #111827;
-  color: white;
-  padding: 20px;
+
+    width: 250px;
+    min-width: 250px;
+    height: 100%;
+    background: #08152f;
+    color: white;
+
 }
 
 .sidebar h2 {

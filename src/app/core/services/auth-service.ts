@@ -10,9 +10,20 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(data: any) {
-    return this.http.post(`${environment.apiUrl}/auth/login`, data);
-  }
+  // login(data: any) {
+  //   return this.http.post(`${environment.apiUrl}/auth/login`, data);
+  // }
+
+//   login(data: any) {
+//   return this.http.post(`${environment.apiUrl}/auth/login`, data);
+// }
+
+login(data: any) {
+  return this.http.post(
+    'https://localhost:7268/api/v1/auth/login',
+    data
+  );
+}
 
   saveToken(token: string) {
     localStorage.setItem('token', token);
