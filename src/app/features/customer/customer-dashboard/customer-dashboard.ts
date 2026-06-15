@@ -155,4 +155,12 @@ export class CustomerDashboard implements OnInit {
 
   }
 
+  get activePolicies(): number {
+  return this.policies.filter((x: any) => x.policyStatus === 'Active').length;
+}
+
+get approvedClaims(): number {
+  return this.claims.filter((x: any) => x.claimStatus === 'Approved').length;
+}
+
 }
