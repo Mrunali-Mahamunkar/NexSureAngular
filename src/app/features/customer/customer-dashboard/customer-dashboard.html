@@ -23,6 +23,7 @@
         <div>
 
             <input
+                type="text"
                 class="form-control"
                 placeholder="Search Policy..."
                 [(ngModel)]="searchText"
@@ -34,7 +35,9 @@
 
     <!-- Loading -->
 
-    <div *ngIf="loading" class="text-center p-5">
+    <div
+        *ngIf="loading"
+        class="text-center mt-5">
 
         <div class="spinner-border text-primary">
 
@@ -54,7 +57,11 @@
 
                     <div class="card-body text-center">
 
-                        <h6>Total Policies</h6>
+                        <h6>
+
+                            Total Policies
+
+                        </h6>
 
                         <h2>
 
@@ -74,11 +81,15 @@
 
                     <div class="card-body text-center">
 
-                        <h6>Active Policies</h6>
+                        <h6>
+
+                            Active Policies
+
+                        </h6>
 
                         <h2>
 
-                            {{policies.filter(x=>x.policyStatus=='Active').length}}
+                            {{activePolicies}}
 
                         </h2>
 
@@ -94,7 +105,11 @@
 
                     <div class="card-body text-center">
 
-                        <h6>Total Claims</h6>
+                        <h6>
+
+                            Total Claims
+
+                        </h6>
 
                         <h2>
 
@@ -114,11 +129,15 @@
 
                     <div class="card-body text-center">
 
-                        <h6>Approved Claims</h6>
+                        <h6>
+
+                            Approved Claims
+
+                        </h6>
 
                         <h2>
 
-                            {{claims.filter(x=>x.claimStatus=='Approved').length}}
+                            {{approvedClaims}}
 
                         </h2>
 
@@ -142,7 +161,9 @@
 
             <div class="card-body">
 
-                <canvas id="customerChart"></canvas>
+                <canvas id="customerChart">
+
+                </canvas>
 
             </div>
 
@@ -168,7 +189,8 @@
 
                             <strong>Name :</strong>
 
-                            {{profile.firstName}} {{profile.lastName}}
+                            {{profile.firstName}}
+                            {{profile.lastName}}
 
                         </p>
 
@@ -219,19 +241,19 @@
 
             <div class="card-body table-responsive">
 
-                <table class="table table-striped table-hover">
+                <table class="table table-hover table-striped">
 
                     <thead>
 
                         <tr>
 
-                            <th>Policy No</th>
+                            <th>Policy Number</th>
 
                             <th>Product</th>
 
                             <th>Status</th>
 
-                            <th>Premium</th>
+                            <th>Annual Premium</th>
 
                             <th>Sum Insured</th>
 
@@ -257,7 +279,21 @@
 
                             <td>
 
-                                {{policy.policyStatus}}
+                                <span
+                                    *ngIf="policy.policyStatus=='Active'"
+                                    class="badge bg-success">
+
+                                    Active
+
+                                </span>
+
+                                <span
+                                    *ngIf="policy.policyStatus!='Active'"
+                                    class="badge bg-danger">
+
+                                    {{policy.policyStatus}}
+
+                                </span>
 
                             </td>
 
@@ -279,9 +315,11 @@
 
                 </table>
 
+                <!-- No Policies -->
+
                 <div
-                    class="text-center p-4"
-                    *ngIf="policies.length==0">
+                    *ngIf="policies.length==0"
+                    class="text-center p-5">
 
                     <h5>
 
@@ -294,8 +332,7 @@
             </div>
 
         </div>
-
-        <!-- My Claims -->
+                <!-- My Claims -->
 
         <div class="card shadow mt-4">
 
@@ -349,7 +386,29 @@
 
                             <td>
 
-                                {{claim.claimStatus}}
+                                <span
+                                    *ngIf="claim.claimStatus=='Approved'"
+                                    class="badge bg-success">
+
+                                    Approved
+
+                                </span>
+
+                                <span
+                                    *ngIf="claim.claimStatus=='Pending'"
+                                    class="badge bg-warning text-dark">
+
+                                    Pending
+
+                                </span>
+
+                                <span
+                                    *ngIf="claim.claimStatus=='Rejected'"
+                                    class="badge bg-danger">
+
+                                    Rejected
+
+                                </span>
 
                             </td>
 
@@ -359,9 +418,11 @@
 
                 </table>
 
+                <!-- No Claims -->
+
                 <div
-                    class="text-center p-4"
-                    *ngIf="claims.length==0">
+                    *ngIf="claims.length==0"
+                    class="text-center p-5">
 
                     <h5>
 
@@ -437,13 +498,13 @@
 
                     <li class="list-group-item">
 
-                        New Policy Activated
+                        Policy Renewed
 
                     </li>
 
                     <li class="list-group-item">
 
-                        Claim Status Updated
+                        Claim Status Changed
 
                     </li>
 
