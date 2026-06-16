@@ -1,0 +1,302 @@
+<div class="container-fluid p-4">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold">
+
+            Payment Management
+
+        </h2>
+
+        <input
+            type="text"
+            class="form-control w-25"
+            placeholder="Search Payment..."
+            [(ngModel)]="searchText">
+
+    </div>
+
+    <!-- Loading -->
+
+    <div
+        *ngIf="loading"
+        class="text-center mt-5">
+
+        <div class="spinner-border text-primary">
+
+        </div>
+
+    </div>
+
+    <div *ngIf="!loading">
+
+        <!-- Dashboard Cards -->
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>
+
+                            Total Revenue
+
+                        </h6>
+
+                        <h2>
+
+                            {{dashboard.totalRevenue | currency:'INR'}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>
+
+                            Total Payments
+
+                        </h6>
+
+                        <h2>
+
+                            {{dashboard.totalPayments}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>
+
+                            Successful
+
+                        </h6>
+
+                        <h2>
+
+                            {{dashboard.successfulPayments}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body text-center">
+
+                        <h6>
+
+                            Pending
+
+                        </h6>
+
+                        <h2>
+
+                            {{dashboard.pendingPayments}}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+                <!-- Payment History -->
+
+        <div class="card shadow mt-4">
+
+            <div class="card-header fw-bold">
+
+                Payment History
+
+            </div>
+
+            <div class="card-body table-responsive">
+
+                <table class="table table-hover table-bordered">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Payment Id</th>
+
+                            <th>Policy Id</th>
+
+                            <th>Schedule Id</th>
+
+                            <th>Amount</th>
+
+                            <th>Payment Mode</th>
+
+                            <th>Status</th>
+
+                            <th>Transaction No</th>
+
+                            <th>Payment Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr *ngFor="let item of payments">
+
+                            <td>
+
+                                {{item.paymentId}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.policyId}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.scheduleId}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.amount | currency:'INR'}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.paymentMode}}
+
+                            </td>
+
+                            <td>
+
+                                <span
+                                    *ngIf="item.paymentStatus=='Success'"
+                                    class="badge bg-success">
+
+                                    Success
+
+                                </span>
+
+                                <span
+                                    *ngIf="item.paymentStatus=='Pending'"
+                                    class="badge bg-warning text-dark">
+
+                                    Pending
+
+                                </span>
+
+                                <span
+                                    *ngIf="item.paymentStatus=='Failed'"
+                                    class="badge bg-danger">
+
+                                    Failed
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {{item.transactionNumber}}
+
+                            </td>
+
+                            <td>
+
+                                {{item.paymentDate | date:'dd/MM/yyyy'}}
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <!-- No Data -->
+
+                <div
+                    *ngIf="payments.length===0"
+                    class="text-center p-5">
+
+                    <h5>
+
+                        No Payments Found
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Pagination -->
+
+        <div class="d-flex justify-content-center mt-4">
+
+            <button
+                class="btn btn-outline-primary me-2"
+                (click)="previousPage()">
+
+                Previous
+
+            </button>
+
+            <span class="align-self-center">
+
+                Page {{currentPage}}
+
+            </span>
+
+            <button
+                class="btn btn-outline-primary ms-2"
+                (click)="nextPage()">
+
+                Next
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
