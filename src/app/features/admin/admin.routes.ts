@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminDashboard } from './admin-dashboard/admin-dashboard';
 import { PremiumSchedule } from './premium-schedule/premium-schedule';
+import { Payment } from './payment/payment';
 
 export const ADMIN_ROUTES: Routes = [
 
@@ -12,6 +13,10 @@ export const ADMIN_ROUTES: Routes = [
   {
     path: 'premium-schedule',
     component: PremiumSchedule
-  }
+  },
+  {
+    path: 'payment',
+    component: Payment
+},
 
 ];
